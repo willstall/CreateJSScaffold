@@ -1,0 +1,10 @@
+html, body, div, ul, li, button, h1, p
+{
+    margin: 0px;
+    padding: 0px;
+}
+
+body
+{
+    overflow: hidden;
+}
