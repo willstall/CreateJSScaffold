@@ -1,16 +1,6 @@
 var stage;
 var container;
 
-function keyPressed( event )
-{
-	//Keycodes found at http://keycode.info
-	if( event.keyCode == 32 )
-		console.log("Space Bar Pressed");
-
-	if(event.keyCode == 13 )
-		console.log("Enter Key Pressed");
-}
-
 function setup()
 {
     // Enable Touch
