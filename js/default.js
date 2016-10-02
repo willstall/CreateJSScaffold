@@ -23,7 +23,10 @@ function main()
 		testing.graphics.beginFill("DeepSkyBlue").rect(0,0,50,50);
 		testing.x = window.innerWidth * 0.5;
 		testing.y = window.innerHeight * 0.5;
-	stage.addChild(testing);    
+	stage.addChild(testing);  
+
+  	var extend_test = new ExtendedContainer();
+		extend_test.output();
 }
 	
 function keyPressed( event )
