@@ -29,9 +29,6 @@ function setup()
     // Resize
     resize();
     window.addEventListener( 'resize', resize, false );
-
-    // Retina
-    retinalize();
 }
 
 function tick( event )
@@ -46,7 +43,7 @@ function resize()
     stage.canvas.width = window.innerWidth;
     stage.canvas.height = window.innerHeight;
 
-    // 300 x 620 
+    retinalize(); 
 }
 
 function center()
@@ -60,15 +57,15 @@ function center()
 
 function retinalize()
 {
-    let originalCanvasWidth = this.canvas.width;
-    let originalCanvasHeight = this.canvas.height;
-    let ratio = window.devicePixelRatio;
+    var originalCanvasWidth = this.canvas.width;
+    var originalCanvasHeight = this.canvas.height;
+    var ratio = window.devicePixelRatio;
 
     if (ratio === undefined)
         return;
 
-    let height = this.canvas.getAttribute('height');
-    let width = this.canvas.getAttribute('width');
+    var height = this.canvas.getAttribute('height');
+    var width = this.canvas.getAttribute('width');
 
     this.canvas.setAttribute('width', Math.round( width * ratio ) );
     this.canvas.setAttribute('height', Math.round( height * ratio ) );
