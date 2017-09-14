@@ -21,6 +21,8 @@ function main()
 	// Extension Test
   	var extend_test = new ExtendedContainer();
 		extend_test.output();
+		
+	testing.Test();
 }
 	
 function keyPressed( event )
@@ -36,4 +38,10 @@ function update( event )
 {
 	event.target.x = event.target.originX + Math.sin( event.target.counter ) * event.target.amplitude;
 	event.target.counter += event.target.increment;
+}
+
+createjs.DisplayObject.prototype.Test = function()
+{
+// check to make sure components array exists before pushing
+	console.log('test');
 }
