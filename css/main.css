@@ -7,4 +7,28 @@ html, body, div, ul, li, button, h1, p
 body
 {
     overflow: hidden;
+    font-family: 'Gloria Hallelujah', cursive;  
+    font-size: 14px;
+}
+
+#footer
+{
+    position: absolute;
+    bottom: 10px;
+    text-align: center;
+    vertical-align: middle;
+    width: 100%;
+    color: #292929;
+}
+
+a
+{
+    color: #000000;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+a:hover
+{
+    color: cyan;
 }
