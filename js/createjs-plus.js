@@ -1,11 +1,14 @@
 createjs.DisplayObject.prototype.componentsUpdating = false;
 createjs.DisplayObject.prototype.SetComponentsUpdate = function( state )
 {
-		console.log(this);
-		console.log("testing components update");
+		
+	//console.log("testing components update");
+	//console.log("this:" + this);
+	//console.log("this value:" + this.componentsUpdating);
 		
   	if((state == true) && (this.componentsUpdate == false))
   	{
+  		console.log("tick added");
 		this.on("tick", this.Update,this);
   	}else{
   		this.off("tick", this.Update,this); 
@@ -62,21 +65,21 @@ function Component()
 }
 Component.prototype.OnAdd = function()
 {
-	console.log(this + "Added");
+	console.log("This:" + this + "Added");
 }
 Component.prototype.OnRemove = function()
 {
-	console.log(this + "Removed");
+	console.log("This:" + this + "Removed");
 }
 Component.prototype.OnEarlyUpdate = function()
 {
-	console.log(this + "Early Update");
+	console.log("This:" + this + "Early Update");
 }
 Component.prototype.OnUpdate = function()
 {
-	console.log(this + "Update");
+	console.log("This:" + this + "Update");
 }
 Component.prototype.OnLateUpdate = function()
 {
-	console.log(this + "Late Update");
+	console.log("This:" + this + "Late Update");
 }
