@@ -14,7 +14,6 @@
     p.OnAdd = function()
     {
         this.targetRotation = this.targetRotation || this.parent.rotation;
-
     }
     p.OnUpdate = function( event )
     {
@@ -48,34 +47,33 @@
         this.parent.scaleY += this.lastOffset.y - currentOffset.y;
 
         this.lastOffset = currentOffset;
-
     }
 
 // OSCILLATE COMPONENT - TEST
-    function OscillateComponent()
+    function OscillatePositionComponent()
     {
         this.counter = 0;
         this.increment = .1;
-        this.amplitude = 50;
+        this.amplitude = new createjs.Point(0, 10);        
     }
-    var p = createjs.extend( OscillateComponent, Component );
+    var p = createjs.extend( OscillatePositionComponent, Component );
     p.OnAdd = function()
     {
-        this.originX = this.originX || this.parent.x;
+        this.origin = this.origin || this.parent.GetPosition();
     }
     p.OnUpdate = function( event )
-    {
-        this.parent.x = this.originX + Math.sin( this.counter ) * this.amplitude;
-        this.counter += this.increment;
-}
+    {       
+        this.parent.x = this.origin.x + Math.sin( this.counter ) * this.amplitude.x;
+        this.parent.y = this.origin.y + Math.cos( this.counter ) * this.amplitude.y;
+        this.counter += this.increment;     
+    }
 
 // BASE COMPONENT ARCHITECTURE
     function Component()
     {
-        this.deltaTime = 0;
-        this.parent = null;
+        this.deltaTime = 0;     // is set on every update
+        this.parent = null;     // is assigned when OnAdd is called
     }
-
     Component.prototype.OnAdd = function(){}
     Component.prototype.OnRemove = function(){}
     Component.prototype.OnUpdate = function( event ){}

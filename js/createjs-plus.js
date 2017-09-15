@@ -1,7 +1,7 @@
 // MOVEMENT EXTENSIONS
 createjs.DisplayObject.prototype.GetPosition = function( )
 {
-    return new createjs.Point( this.parent.x, this.parent.y );
+    return new createjs.Point( this.x, this.y );
 }
 createjs.DisplayObject.prototype.DegreesToTarget = function( target )
 {
