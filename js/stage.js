@@ -10,7 +10,7 @@ function setup()
     // Update
     createjs.Ticker.timingMode = createjs.Ticker.RAF;
     createjs.Ticker.addEventListener( "tick", tick );
-    createjs.Ticker.setFPS( 30 );
+    createjs.Ticker.framerate = 30;
 
     // Container
     container = new createjs.Container();
