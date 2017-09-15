@@ -1,3 +1,47 @@
+// ROTATION COMPONENT
+
+/*
+
+	// Rotation
+	if(pin.targetRotation < 0 )
+	{
+		pin.targetRotation = 0; 
+	}else{	
+		var ease = .1;
+		//var destination = pin.targetRotation - ( pin.targetRotation * accel );
+		//pin.rotation += destination;
+		//pin.targetRotation -= destination;
+		
+		pin.rotation = lerp( pin.rotation, pin.targetRotation, ease);
+
+	}
+
+
+    	audioPlaying = false;
+	// console.log("press animal");
+	var targetRotation = Math.atan2(event.target.y,event.target.x) * 180 / Math.PI;
+		targetRotation = Math.round( targetRotation );
+
+	if(targetRotation <= 0 )
+	{
+		targetRotation += 360;
+	}
+
+	var currentRotations = Math.floor( pin.targetRotation / 360 );
+	var finalTargetRotation = currentRotations * 360 + targetRotation;
+
+	if(finalTargetRotation <= pin.targetRotation)
+		finalTargetRotation += 360;
+
+    pin.targetRotation = finalTargetRotation + 720;
+    
+
+    // Plot on Circle 
+    var x = radius * Math.cos(2 * Math.PI * i / itemCount);
+    var y = radius * Math.sin(2 * Math.PI * i / itemCount);       
+*/
+
+
 //OSCILLATE SCALE
 /*
 using UnityEngine;

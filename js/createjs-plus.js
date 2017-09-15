@@ -1,3 +1,5 @@
+// COMPONENT EXTENSION
+
 createjs.DisplayObject.prototype.componentsUpdating = false;
 
 createjs.DisplayObject.prototype.SetComponentsUpdate = function( state )
@@ -64,7 +66,7 @@ createjs.DisplayObject.prototype.Update = function( event )
 }
 
 
-
+// POINT EXTENSION
 
 createjs.Point.prototype.add = function(v){
 	return new createjs.Point(this.x + v.x, this.y + v.y);
