@@ -6,7 +6,7 @@ createjs.DisplayObject.prototype.GetPosition = function( )
     return new createjs.Point( this.parent.x, this.parent.y );
 }
 
-createjs.DisplayObject.prototype.DegreesToTarget( target )
+createjs.DisplayObject.prototype.DegreesToTarget = function( target )
 {
     var degrees = this.GetPosition().degreesTo( target.GetPosition() );
     if( degrees < 0 )

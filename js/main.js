@@ -25,6 +25,8 @@ function main()
 		extend_test.output();
 
 	container.addChild(testing);
+
+
 }
 
 function keyPressed( event )
