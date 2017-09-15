@@ -14,7 +14,7 @@ function main()
 		testing.counter = 0;
 		testing.increment = .1;
 		testing.amplitude = 50;
-		testing.on("tick", update);
+		//testing.on("tick", update);
 
 	container.addChild(testing);  
 
