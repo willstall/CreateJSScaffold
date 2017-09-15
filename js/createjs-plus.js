@@ -1,5 +1,21 @@
 // COMPONENT EXTENSION
 createjs.DisplayObject.prototype.componentsUpdating = false;
+
+createjs.DisplayObject.prototype.GetPosition = function( )
+{
+    return new createjs.Point( this.parent.x, this.parent.y );
+}
+
+createjs.DisplayObject.prototype.DegreesToTarget( target )
+{
+    var degrees = this.GetPosition().degreesTo( target.GetPosition() );
+    if( degrees < 0 )
+        degrees += 360;
+
+    return degrees;
+}
+
+
 createjs.DisplayObject.prototype.SetComponentsUpdate = function( state )
 {
   	if((state == true) && (this.componentsUpdating == false))
@@ -10,6 +26,7 @@ createjs.DisplayObject.prototype.SetComponentsUpdate = function( state )
   	}
   	this.componentsUpdating = state;
 }
+
 createjs.DisplayObject.prototype.AddComponent = function( component )
 {
 
@@ -22,6 +39,20 @@ createjs.DisplayObject.prototype.AddComponent = function( component )
 	component.parent = this;
 	component.OnAdd();
 }
+
+createjs.DisplayObject.prototype.GetComponent = function( type )
+{
+
+	if(this.components == null)
+	{
+		this.components = [];
+	}
+
+    var match = this.components.filter( component => component instanceof type );
+
+    return match.length > 0 ? match[0] : null;
+}
+
 createjs.DisplayObject.prototype.RemoveComponent = function( component )
 {
 	var index = createjs.indexOf( this.components, component ); // will return -1 if not found
@@ -137,4 +168,12 @@ createjs.Point.cross = function( pt1, pt2 )
 createjs.Point.dot = function( pt1, pt2 )
 {
 	return pt1.x*pt2.x + pt1.y*pt2.y;
+}
+
+
+
+createjs.Math = {};
+createjs.Math.lerp = function ( A, B, t )
+{
+    return  A + t * (B - A);
 }
