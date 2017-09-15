@@ -1,7 +1,5 @@
 // COMPONENT EXTENSION
-
 createjs.DisplayObject.prototype.componentsUpdating = false;
-
 createjs.DisplayObject.prototype.SetComponentsUpdate = function( state )
 {
   	if((state == true) && (this.componentsUpdating == false))
@@ -12,7 +10,6 @@ createjs.DisplayObject.prototype.SetComponentsUpdate = function( state )
   	}
   	this.componentsUpdating = state;
 }
-
 createjs.DisplayObject.prototype.AddComponent = function( component )
 {
 
@@ -25,7 +22,6 @@ createjs.DisplayObject.prototype.AddComponent = function( component )
 	component.parent = this;
 	component.OnAdd();
 }
-
 createjs.DisplayObject.prototype.RemoveComponent = function( component )
 {
 	var index = createjs.indexOf( this.components, component ); // will return -1 if not found
@@ -38,7 +34,6 @@ createjs.DisplayObject.prototype.RemoveComponent = function( component )
 	}
 	return false;
 }
-
 createjs.DisplayObject.prototype.Update = function( event )
 {
 	if(this.components == null)
@@ -67,7 +62,6 @@ createjs.DisplayObject.prototype.Update = function( event )
 
 
 // POINT EXTENSION
-
 createjs.Point.prototype.add = function(v){
 	return new createjs.Point(this.x + v.x, this.y + v.y);
 };
@@ -108,25 +102,20 @@ createjs.Point.prototype.offset = function(dx, dy){
 	this.x += dx;
 	this.y += dy;
 };
-
 createjs.Point.prototype.normalized = function(){
 	var l = this.length();
 	return new createjs.Point(this.x / l, this.y / l);
 };
-
 createjs.Point.prototype.scale = function(s)
 {
 	return new createjs.Point( this.x * s, this.y * s );
 }
-
-
 createjs.Point.prototype.subtract = function(v){
 	return new createjs.Point(this.x - v.x, this.y - v.y);
 };
 createjs.Point.prototype.toString = function(){
 	return "(x=" + this.x + ", y=" + this.y + ")";
 };
-
 createjs.Point.interpolate = function(pt1, pt2, f){
 	return pt1.interpolate(pt2, f);
 };
@@ -138,16 +127,13 @@ createjs.Point.distance = function(pt1, pt2){
 	var y = pt1.y - pt2.y;
 	return Math.sqrt(x * x + y * y);
 };
-
 createjs.Point.randomOnUnitCircle = function(){
 	return new createjs.Point( Math.random() * 2 - 1, Math.random() * 2 - 1)
 };
-
 createjs.Point.cross = function( pt1, pt2 )
 {
 	return pt1.x*pt2.y-pt1.y*pt2.x;
 }
-
 createjs.Point.dot = function( pt1, pt2 )
 {
 	return pt1.x*pt2.x + pt1.y*pt2.y;
