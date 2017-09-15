@@ -14,6 +14,8 @@ function main()
 	var positionComponent = new OscillatePositionComponent();
 		positionComponent.amplitude.y = 50;
 	var lookAtComponent = new LookAtComponent();
+	var rotateComponent = new RotateComponent();
+		rotateComponent.increment = 0.5
 
 	// Display 
 	var test1 = new createjs.Shape();
@@ -43,6 +45,8 @@ function main()
 		extend_test.output();
 
 	container.addChild(test1,test2,test3);
+	container.AddComponent( rotateComponent );
+	container.SetComponentsUpdate( true );
 
 
 }
