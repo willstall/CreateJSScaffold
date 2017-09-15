@@ -7,7 +7,7 @@ function main()
 	document.onkeydown = keyPressed;
 
 	// Component Test
-	var testComponent = new OscillateComponent();	
+	var testComponent = new OscillateScale();	
 	// Display Test
 	var testing = new createjs.Shape();
 		 testing.graphics.beginFill("DeepSkyBlue").rect(0,0,50,50);

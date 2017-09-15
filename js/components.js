@@ -42,12 +42,13 @@ p.OnAdd = function()
   this.randomOffset = false;
   this.offset = 0;
   
-  if(randomOffset)
-    offset = Mathf.random() * 10000;
+  if(this.randomOffset)
+    this.offset = Mathf.random() * 10000;
 }
 
-p.OnUpdate = function()
+p.OnUpdate = function( event )
 {
+  console.log("event: "+ event );
 //=  var currentOffset = Mathf.sin(  (Time.time + offset) * frequency ) * amplitude;
 //  this.scaleX = 
 }
@@ -65,7 +66,7 @@ p.OnAdd = function()
 	this.amplitude = 50;	
 }
 
-p.OnUpdate = function()
+p.OnUpdate = function( event )
 {
 	this.parent.x = this.originX + Math.sin( this.counter ) * this.amplitude;
 	this.counter += this.increment;
@@ -75,9 +76,9 @@ p.OnUpdate = function()
 function Component(){}
 Component.prototype.OnAdd = function(){}
 Component.prototype.OnRemove = function(){}
-Component.prototype.OnEarlyUpdate = function(){}
-Component.prototype.OnUpdate = function(){}
-Component.prototype.OnLateUpdate = function(){}
+Component.prototype.OnUpdate = function( event ){}
+//Component.prototype.OnEarlyUpdate = function(){}
+//Component.prototype.OnLateUpdate = function(){}
 
 /*
 

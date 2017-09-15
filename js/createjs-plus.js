@@ -37,7 +37,7 @@ createjs.DisplayObject.prototype.RemoveComponent = function( component )
 	return false;
 }
 
-createjs.DisplayObject.prototype.Update = function()
+createjs.DisplayObject.prototype.Update = function( event )
 {
 	if(this.components == null)	
 		return;
@@ -46,8 +46,8 @@ createjs.DisplayObject.prototype.Update = function()
 	{
 		var component = this.components[i];
 		
-		component.OnEarlyUpdate();
-		component.OnUpdate();
-		component.OnLateUpdate();
+		//component.OnEarlyUpdate();
+		component.OnUpdate( event );
+		//component.OnLateUpdate();
 	}
 }
