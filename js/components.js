@@ -4,6 +4,18 @@
         this.ease = .1;
     }
     var p = createjs.extend( LookAtComponent, Component );
+    p.OnAdd = function()
+    {
+        this.target = this.target || null;
+    }
+    p.OnUpdate = function( event )
+    {
+        if(this.target == null)
+            return;
+
+        var degrees = this.parent.DegreesToTarget( this.target );
+        this.parent.rotation = createjs.Math.lerp( this.parent.rotation, degrees, this.ease );
+    }
 
 // SPIN COMPONENT
     function SpinComponent()

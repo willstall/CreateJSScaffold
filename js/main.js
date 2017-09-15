@@ -33,7 +33,7 @@ function main()
 		test3.x = -60;
 		test3.graphics.beginFill("Green").rect(-30, -25, 60,50);
 		test3.AddComponent( lookAtComponent );
-		test2.SetComponentsUpdate( true );
+		test3.SetComponentsUpdate( true );
 		
 		lookAtComponent.target = test2;
 		//test2.on("tick", update);

@@ -1,3 +1,5 @@
+// STAGE EXTENSIONS
+
 // MOVEMENT EXTENSIONS
 createjs.DisplayObject.prototype.GetPosition = function( )
 {
@@ -13,7 +15,7 @@ createjs.DisplayObject.prototype.DegreesToTarget = function( target )
 }
 
 // COMPONENT EXTENSION
-createjs.DisplayObject.prototype.componentsUpdating = false;
+createjs.DisplayObject.prototype.componentsUpdating = false;		// DO NOT SET THIS DIRECTION, USE SETCOMPONENTSUPDATE
 createjs.DisplayObject.prototype.SetComponentsUpdate = function( state )
 {
   	if((state == true) && (this.componentsUpdating == false))
