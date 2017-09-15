@@ -2,6 +2,11 @@
 
 /*
 
+    function lerp( A, B, t )
+    {
+        return  A + t * (B - A);	
+    }
+
 	// Rotation
 	if(pin.targetRotation < 0 )
 	{
@@ -41,7 +46,45 @@
     var y = radius * Math.sin(2 * Math.PI * i / itemCount);       
 */
 
-// OSCILLATE SCALE COMPONENT - TEST
+// ROTATION COMPONENT
+function RotationComponent(){}
+    var p = createjs.extend( OscillateScaleComponent, Component );
+    p.onAdd = function()
+    {
+        this.targetRotation = 0; //calculate currentRotation
+    }
+    p.onUpdate = function( event )
+    {
+        // if(pin.targetRotation < 0 )
+        // {
+        //     pin.targetRotation = 0; 
+        // }else{	
+        //     var ease = .1;
+        //     //var destination = pin.targetRotation - ( pin.targetRotation * accel );
+        //     //pin.rotation += destination;
+        //     //pin.targetRotation -= destination;
+            
+        //     pin.rotation = lerp( pin.rotation, pin.targetRotation, ease);
+    
+        // }
+
+        // var targetRotation = Math.atan2(event.target.y,event.target.x) * 180 / Math.PI;
+		// targetRotation = Math.round( targetRotation );
+
+        // if(targetRotation <= 0 )
+        // {
+        //     targetRotation += 360;
+        // }
+
+        // var currentRotations = Math.floor( pin.targetRotation / 360 );
+        // var finalTargetRotation = currentRotations * 360 + targetRotation;
+
+        // if(finalTargetRotation <= pin.targetRotation)
+        //     finalTargetRotation += 360;        
+        //pin.rotation = lerp( pin.rotation, pin.targetRotation, ease);
+    }
+
+// OSCILLATE SCALE COMPONENT
 function OscillateScaleComponent(){}
     var p = createjs.extend( OscillateScaleComponent, Component );
 
