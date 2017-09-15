@@ -5,11 +5,11 @@ using System.Collections;
 
 public class OscillateScale : MonoBehaviour
 {
-    
+
     public float frequency = 2;
-    public Vector3 amplitude = Vector3.one; 
-    public bool randomOffset;   
-    
+    public Vector3 amplitude = Vector3.one;
+    public bool randomOffset;
+
 
     float offset;
 
@@ -21,7 +21,7 @@ public class OscillateScale : MonoBehaviour
         if(randomOffset)
             offset = Random.Range(0,10000);
     }
-        
+
     void Update ()
     {
         var thisOffset = Mathf.Sin( (Time.time + offset) * frequency ) * amplitude;
@@ -32,26 +32,34 @@ public class OscillateScale : MonoBehaviour
 */
 
 function OscillateScale(){}
-var p = createjs.extend( OscillateScale, Component );
+    var p = createjs.extend( OscillateScale, Component );
 
-p.OnAdd = function()
-{
-  this.frequency = 2;
-  this.xScaleAmplitude = 1;
-  this.yScaleAmplitude = 1;  
-  this.randomOffset = false;
-  this.offset = 0;
-  
-  if(this.randomOffset)
-    this.offset = Mathf.random() * 10000;
-}
+    p.OnAdd = function()
+    {
+      this.frequency = 20;
+      this.amplitude = new createjs.Point(1, 0.3);
 
-p.OnUpdate = function( event )
-{
-  console.log("event: "+ event );
-//=  var currentOffset = Mathf.sin(  (Time.time + offset) * frequency ) * amplitude;
-//  this.scaleX = 
-}
+      this.randomOffset = false;
+      this.offset = 0;
+      this.stop = false;
+
+      this.lastOffset = new createjs.Point(0,0);
+
+      if(this.randomOffset)
+        this.offset = Math.random() * 10000;
+    }
+
+    p.OnUpdate = function( event )
+    {
+        var currentScale = Math.sin(  (event.timeStamp/1000 + this.offset) * this.frequency );
+        var currentOffset = this.amplitude.scale( currentScale );
+
+        this.parent.scaleX += this.lastOffset.x - currentOffset.x;
+        this.parent.scaleY += this.lastOffset.y - currentOffset.y;
+
+        this.lastOffset = currentOffset;
+
+    }
 
 // OSCILLATE COMPONENT - TEST
 function OscillateComponent(){}
@@ -63,7 +71,7 @@ p.OnAdd = function()
 	this.originX = this.parent.x;
 	this.counter = 0;
 	this.increment = .1;
-	this.amplitude = 50;	
+	this.amplitude = 50;
 }
 
 p.OnUpdate = function( event )
@@ -73,10 +81,16 @@ p.OnUpdate = function( event )
 }
 
 // BASE COMPONENT ARCHITECTURE
-function Component(){}
+function Component()
+{
+    this.deltaTime = 0;
+    this.parent = null;
+}
+
 Component.prototype.OnAdd = function(){}
 Component.prototype.OnRemove = function(){}
 Component.prototype.OnUpdate = function( event ){}
+
 //Component.prototype.OnEarlyUpdate = function(){}
 //Component.prototype.OnLateUpdate = function(){}
 
