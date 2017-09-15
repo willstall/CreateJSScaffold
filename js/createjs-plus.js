@@ -2,11 +2,11 @@ createjs.DisplayObject.prototype.componentsUpdating = false;
 createjs.DisplayObject.prototype.SetComponentsUpdate = function( state )
 {
 		
-	//console.log("testing components update");
+	console.log("trying to add component update");
 	//console.log("this:" + this);
 	//console.log("this value:" + this.componentsUpdating);
 		
-  	if((state == true) && (this.componentsUpdate == false))
+  	if((state == true) && (this.componentsUpdating == false))
   	{
   		console.log("tick added");
 		this.on("tick", this.Update,this);
