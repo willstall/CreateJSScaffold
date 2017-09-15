@@ -1,11 +1,8 @@
-// COMPONENT EXTENSION
-createjs.DisplayObject.prototype.componentsUpdating = false;
-
+// MOVEMENT EXTENSIONS
 createjs.DisplayObject.prototype.GetPosition = function( )
 {
     return new createjs.Point( this.parent.x, this.parent.y );
 }
-
 createjs.DisplayObject.prototype.DegreesToTarget = function( target )
 {
     var degrees = this.GetPosition().degreesTo( target.GetPosition() );
@@ -15,7 +12,8 @@ createjs.DisplayObject.prototype.DegreesToTarget = function( target )
     return degrees;
 }
 
-
+// COMPONENT EXTENSION
+createjs.DisplayObject.prototype.componentsUpdating = false;
 createjs.DisplayObject.prototype.SetComponentsUpdate = function( state )
 {
   	if((state == true) && (this.componentsUpdating == false))

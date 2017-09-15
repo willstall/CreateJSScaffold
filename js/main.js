@@ -3,28 +3,40 @@ function main()
 	// Setup
 	setup();
 
-	// Keyboard Test
+	// Keyboard
 	document.onkeydown = keyPressed;
 
-	// Component Test
+	// Components
 	var testComponent = new OscillateScaleComponent();
 	var spinComponent = new SpinComponent();
+		spinComponent.targetRotation = 3600;
+	var lookAtComponent = new LookAtComponent();
 
-	// Display Test
-	var testing = new createjs.Shape();
-		 testing.graphics.beginFill("DeepSkyBlue").rect(0,0,50,50);
-		 testing.AddComponent( testComponent );
-		 testing.AddComponent( spinComponent );
+	// Display 
+	var test1 = new createjs.Shape();
+		test1.graphics.beginFill("DeepSkyBlue").rect(-25,-25,50,50);
+		test1.rotation = 45;
+		test1.x = 60;
+		test1.AddComponent( testComponent );
+		test1.AddComponent( spinComponent );
+		test1.SetComponentsUpdate( true );
+	
+	var test2 = new createjs.Shape();
+		test2.graphics.beginFill("Red").drawCircle(0, 0, 10);
 
-		 testing.SetComponentsUpdate( true );
-		//testing.graphics.beginFill("DeepSkyBlue").drawCircle(0, 0, 50);
-		//testing.on("tick", update);
+	var test3 = new createjs.Shape();
+		test3.x = -60;
+		test3.graphics.beginFill("Green").rect(-25, -25, 50,50);
+		test3.AddComponent( lookAtComponent );
+		
+		lookAtComponent.target = test1;
+		//test2.on("tick", update);
 
-	// Extension Test
+	// Extension
   	var extend_test = new ExtendedContainer();
 		extend_test.output();
 
-	container.addChild(testing);
+	container.addChild(test1,test2,test3);
 
 
 }
