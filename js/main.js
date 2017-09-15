@@ -40,8 +40,3 @@ function update( event )
 	event.target.counter += event.target.increment;
 }
 
-createjs.DisplayObject.prototype.Test = function()
-{
-// check to make sure components array exists before pushing
-	console.log('test');
-}
