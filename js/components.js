@@ -20,14 +20,12 @@
 // ROTATE COMPONENT
     function RotateComponent()
     {
-        this.ease = .1;
         this.increment = 2;
     }
     var p = createjs.extend( RotateComponent, Component );
     p.OnUpdate = function( event )
     {
         this.parent.rotation += this.increment
-
     }
 
 // SPIN COMPONENT
