@@ -1,14 +1,9 @@
 createjs.DisplayObject.prototype.componentsUpdating = false;
+
 createjs.DisplayObject.prototype.SetComponentsUpdate = function( state )
-{
-		
-	console.log("trying to add component update");
-	//console.log("this:" + this);
-	//console.log("this value:" + this.componentsUpdating);
-		
+{		
   	if((state == true) && (this.componentsUpdating == false))
   	{
-  		console.log("tick added");
 		this.on("tick", this.Update,this);
   	}else{
   		this.off("tick", this.Update,this); 
@@ -18,7 +13,7 @@ createjs.DisplayObject.prototype.SetComponentsUpdate = function( state )
 
 createjs.DisplayObject.prototype.AddComponent = function( component )
 {
-	// add component
+
 	if(this.components == null)
 	{
 		this.components = [];
@@ -31,9 +26,7 @@ createjs.DisplayObject.prototype.AddComponent = function( component )
 
 createjs.DisplayObject.prototype.RemoveComponent = function( component )
 {
-	// remove component
-	// createjs has an indexOf function that will return -1 if the index is not present
-	var index = createjs.indexOf( this.components, component )
+	var index = createjs.indexOf( this.components, component ); // will return -1 if not found
 	
 	if(index != -1)
 	{
@@ -57,29 +50,4 @@ createjs.DisplayObject.prototype.Update = function()
 		component.OnUpdate();
 		component.OnLateUpdate();
 	}
-}
-
-function Component()
-{
-	parent = null;
-}
-Component.prototype.OnAdd = function()
-{
-	console.log("This:" + this + "Added");
-}
-Component.prototype.OnRemove = function()
-{
-	console.log("This:" + this + "Removed");
-}
-Component.prototype.OnEarlyUpdate = function()
-{
-	console.log("This:" + this + "Early Update");
-}
-Component.prototype.OnUpdate = function()
-{
-	console.log("This:" + this + "Update");
-}
-Component.prototype.OnLateUpdate = function()
-{
-	console.log("This:" + this + "Late Update");
 }

@@ -6,26 +6,21 @@ function main()
 	// Keyboard Test
 	document.onkeydown = keyPressed;
 
+	// Component Test
+	var testComponent = new OscillateComponent();	
 	// Display Test
 	var testing = new createjs.Shape();
+		 testing.graphics.beginFill("DeepSkyBlue").rect(0,0,50,50);
+		 testing.AddComponent( testComponent );
+		 testing.SetComponentsUpdate( true );		 
 		//testing.graphics.beginFill("DeepSkyBlue").drawCircle(0, 0, 50);
-		testing.graphics.beginFill("DeepSkyBlue").rect(0,0,50,50);
-		testing.originX = testing.x;
-		testing.counter = 0;
-		testing.increment = .1;
-		testing.amplitude = 50;
-		testing.on("tick", update);
-
-	container.addChild(testing);  
+		//testing.on("tick", update);
 
 	// Extension Test
   	var extend_test = new ExtendedContainer();
-		extend_test.output();
+		 extend_test.output();
 	
-	var testComponent = new Component();
-	
-	testing.AddComponent( testComponent );
-	testing.SetComponentsUpdate( true );
+	container.addChild(testing);  
 }
 	
 function keyPressed( event )
@@ -39,7 +34,5 @@ function keyPressed( event )
 
 function update( event )
 {
-	event.target.x = event.target.originX + Math.sin( event.target.counter ) * event.target.amplitude;
-	event.target.counter += event.target.increment;
+	console.log("update");
 }
-
