@@ -21,8 +21,11 @@ function main()
 	// Extension Test
   	var extend_test = new ExtendedContainer();
 		extend_test.output();
-		
-	testing.Test();
+	
+	var testComponent = new Component();
+	
+	testing.AddComponent( testComponent );
+	testing.SetComponentsUpdate( true );
 }
 	
 function keyPressed( event )
