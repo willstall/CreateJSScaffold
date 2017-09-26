@@ -1,3 +1,16 @@
+// TEXT DEBUG EXTENSION
+createjs.Text.prototype.Debug = function()
+{
+	var args = Array.prototype.slice.call(arguments, 0);
+	var output = "";
+	for( var i = 0; i < args.length; i++)
+	{
+		var value = args[i];
+		output += JSON.stringify( value ) + "\n";
+	}
+	this.text = output;
+}
+
 // STAGE EXTENSIONS
 
 // MOVEMENT EXTENSIONS

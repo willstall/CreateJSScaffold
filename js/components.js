@@ -1,3 +1,108 @@
+// private var ball:Ball;
+// private var spring:Number = 0.1;
+// private var vx:Number = 0;
+// private var vy:Number = 0;
+// private var friction:Number = 0.95;
+// private var springLength:Number = 100;
+
+// public function OffsetSpring()
+// {
+//     init();
+// }
+
+// private function init():void
+// {
+//     ball = new Ball(20);
+//     addChild(ball);
+//     addEventListener(Event.ENTER_FRAME, onEnterFrame);
+// }
+
+
+// private function onEnterFrame(event:Event):void
+// {
+//     var dx:Number = ball.x - mouseX;
+//     var dy:Number = ball.y - mouseY;
+//     var angle:Number = Math.atan2(dy, dx);
+//     var targetX:Number = mouseX + Math.cos(angle) * springLength;
+//     var targetY:Number = mouseY + Math.sin(angle) * springLength;
+//     vx += (targetX - ball.x) * spring;
+//     vy += (targetY - ball.y) * spring;
+//     vx *= friction;
+//     vy *= friction;
+//     ball.x += vx;
+//     ball.y += vy;
+//     graphics.clear();
+//     graphics.lineStyle(1);
+//     graphics.moveTo(ball.x, ball.y);
+//     graphics.lineTo(mouseX, mouseY);
+
+// SPRING COMPONENT
+    // function SpringComponent()
+    // {
+
+    //     this.velocity = new createjs.Point();
+    // }
+    // var p = createjs.extend( SpringComponent, Component );
+    // p.OnUpdate = function( event )
+    // {
+    //     if( this.target == null)
+    //         return;
+
+    //    var pos = this.parent.GetPosition();
+    //    var targetPos = this.target.GetPosition();
+
+    //     var d = 
+
+    // }
+// OFFSET SPRING COMPONENT
+    function SpringComponent()
+    {
+        this.distance = 1;
+        this.friction = 0.95;
+        this.spring = .1;
+        this.velocity = new createjs.Point();
+    }
+    var p = createjs.extend( SpringComponent, Component );
+    p.OnUpdate = function( event )
+    {
+        if( this.target == null)
+            return;
+
+        var pos = this.parent.GetPosition();
+        var targetPos = this.target.GetPosition();
+        var angle = targetPos.degreesTo( pos );
+        var targetX = pos.x - Math.cos(angle) * this.distance;
+        var targetY = pos.y - Math.sin(angle) * this.distance;
+        this.velocity.x += (targetX - targetPos.x) * this.spring;
+        this.velocity.y += (targetY - targetPos.y) * this.spring;
+        this.velocity.x *= this.friction;
+        this.velocity.y *= this.friction;
+        this.parent.x += this.velocity.x;
+        this.parent.y += this.velocity.y;
+    }
+
+// FADE COMPONENT
+  function FadeComponent()
+  {
+    this.ease = 0.9;
+    this.autoDestroy = false;
+  }
+  var p = createjs.extend( FadeComponent, Component );
+  p.OnUpdate = function( event )
+  {
+    if(this.parent.alpha < 0 )
+    {
+      this.parent.alpha = 0;
+      if(this.autoDestroy == false)
+        return;      
+        
+      this.SetComponentsUpdate( false );
+      this.parent.parent.removeChild( this.parent);
+     }else{   
+      this.parent.alpha *= this.ease;
+    }
+  }
+
 // LOOK AT COMPONENT
     function LookAtComponent()
     {
@@ -59,7 +164,7 @@
     p.OnAdd = function()
     {
         if(this.randomOffset)
-        this.offset = Math.random() * 10000;        
+            this.offset = Math.random() * 10000;        
     }
     p.OnUpdate = function( event )
     {
@@ -91,6 +196,31 @@
         this.counter += this.increment;     
     }
 
+// TRANSLATE COMPONENT
+  function TranslateComponent()
+  {
+    this.velocity = new createjs.Point(0,2);
+  }
+  var p = createjs.extend( TranslateComponent, Component );
+  p.OnUpdate = function( event )
+  {
+    this.parent.x += this.velocity.x;
+    this.parent.y += this.velocity.y;
+  }
+  
+// VELOCITY COMPONENT
+  function VelocityComponent()
+  {
+    this.velocity = new createjs.Point(0,20);
+    this.friction = 0.9;
+  }
+  var p = createjs.extend( VelocityComponent, Component );
+  p.OnUpdate = function( event )
+  {
+    this.velocity = this.velocity.scale( this.friction );
+    this.parent.x += this.velocity.x;
+    this.parent.y += this.velocity.y;
+  }
 // BASE COMPONENT ARCHITECTURE
     function Component()
     {
