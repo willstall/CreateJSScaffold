@@ -82,10 +82,10 @@
     }
 
 // FADE COMPONENT
-  function FadeComponent()
+  function FadeComponent(ease = 0.9, autoDestroy = false)
   {
-    this.ease = 0.9;
-    this.autoDestroy = false;
+    this.ease = ease;
+    this.autoDestroy = autoDestroy;
   }
   var p = createjs.extend( FadeComponent, Component );
   p.OnUpdate = function( event )
@@ -104,9 +104,9 @@
   }
 
 // LOOK AT COMPONENT
-    function LookAtComponent()
+    function LookAtComponent( ease = 0.1)
     {
-        this.ease = .1;
+        this.ease = ease;
     }
     var p = createjs.extend( LookAtComponent, Component );
     p.OnAdd = function()
@@ -123,9 +123,9 @@
     }
 
 // ROTATE COMPONENT
-    function RotateComponent()
+    function RotateComponent( increment = 2 )
     {
-        this.increment = 2;
+        this.increment = increment;
     }
     var p = createjs.extend( RotateComponent, Component );
     p.OnUpdate = function( event )
@@ -134,25 +134,27 @@
     }
 
 // SPIN COMPONENT
-    function SpinComponent()
+    function SpinComponent( ease = 0.1 , targetRotation )
     {
-        this.ease = .1;
+        this.ease = ease;
+        if( targetRotation )
+          this.targetRotation = targetRotation;
     }
-    var p = createjs.extend( SpinComponent, Component );
     p.OnAdd = function()
     {
         this.targetRotation = this.targetRotation || this.parent.rotation;
-    }
+    }    
+    var p = createjs.extend( SpinComponent, Component );
     p.OnUpdate = function( event )
     {
         this.parent.rotation = createjs.Math.lerp( this.parent.rotation, this.targetRotation, this.ease );
     }
 
 // OSCILLATE SCALE COMPONENT
-    function OscillateScaleComponent()
+    function OscillateScaleComponent( frequency = 20, amplitude = new createjs.Point(1, 1) )
     {
-        this.frequency = 20;
-        this.amplitude = new createjs.Point(1, 1);
+        this.frequency = frequency;
+        this.amplitude = amplitude;
   
         this.randomOffset = false;
         this.offset = 0;
@@ -178,10 +180,10 @@
     }
 
 // OSCILLATE COMPONENT - TEST
-    function OscillatePositionComponent()
+    function OscillatePositionComponent( counter = 0, increment = 0.1)
     {
-        this.counter = 0;
-        this.increment = .1;
+        this.counter = counter;
+        this.increment = increment;
         this.amplitude = new createjs.Point(0, 10);        
     }
     var p = createjs.extend( OscillatePositionComponent, Component );
