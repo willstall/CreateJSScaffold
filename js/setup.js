@@ -18,7 +18,7 @@ function setup()
 
     // Stage
     stage = new createjs.Stage( canvas );
-    stage.enableMouseOver();
+    stage.enableMouseOver( 20 );  //default 20 per second, max 50
     stage.mouseMoveOutside = true;
     stage.addChild(container);
     stage.update(); 

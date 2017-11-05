@@ -54,6 +54,19 @@
     //     var d = 
 
     // }
+    
+// THROW COMPONENT
+  function ThrowComponent()
+  {
+    this.velocity = new createjs.Point(0,0);
+  }
+  var p = createjs.extend( ThrowComponent, Component );
+  p.OnUpdate = function( event )
+  {
+  
+  }
+
+
 // OFFSET SPRING COMPONENT
     function SpringComponent()
     {
