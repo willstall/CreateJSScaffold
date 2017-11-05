@@ -5,7 +5,17 @@ function main()
 
 	// Keyboard
 	document.onkeydown = keyPressed;
+	
+	// Tinder
+	var profile = new Profile();
+		
+		
+	container.addChild( profile );
 
+
+
+
+/*
 	// Components
 //	var spinComponent = new SpinComponent();
 //		spinComponent.targetRotation = 3600;
@@ -47,6 +57,8 @@ function main()
 	container.addChild(test1,test2,test3);
 	container.AddComponent( rotateComponent );
 	container.SetComponentsUpdate( true );
+	
+	*/
 }
 
 function keyPressed( event )
