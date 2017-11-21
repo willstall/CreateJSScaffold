@@ -32,3 +32,15 @@ a:hover
 {
     color: cyan;
 }
+
+.orientleft#content
+{
+    transform: rotate(-90deg);
+    transform-origin:50% 50%;
+}
+
+.orientright#content
+{
+    transform: rotate(90deg);
+    transform-origin:50% 50%;
+}

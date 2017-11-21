@@ -1,5 +1,5 @@
 // TEXT DEBUG EXTENSION
-createjs.Text.prototype.Debug = function()
+createjs.Text.prototype.log = function()
 {
 	var args = Array.prototype.slice.call(arguments, 0);
 	var output = "";
@@ -183,10 +183,19 @@ createjs.Point.dot = function( pt1, pt2 )
 	return pt1.x*pt2.x + pt1.y*pt2.y;
 }
 
-
-
+// MATH EXTENSIONS
 createjs.Math = {};
 createjs.Math.lerp = function ( A, B, t )
 {
     return  A + t * (B - A);
+}
+createjs.Math.clamp = function(val, min, max)
+{
+	return val < min ? min : (val > max ? max : val);
+}
+createjs.Math.randomRange = function(min, max)
+{
+	min = Math.ceil(min);
+	max = Math.floor(max);
+	return Math.floor(Math.random() * (max - min + 1)) + min;
 }
