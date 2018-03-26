@@ -1,7 +1,7 @@
 var stage;
 var container;
 var canvas;
-var debug;
+//var debug;
 
 function setup()
 {
@@ -18,14 +18,14 @@ function setup()
     container.x = container.y = 0;
 
     // Debug
-    debug = new createjs.Text();
-    debug.log( "Debug" );
+   // debug = new createjs.Text();
+    //debug.log( "Debug" );
 
     // Stage
     stage = new createjs.Stage( canvas );
     stage.enableMouseOver( 20 );  //default 20 per second, max 50
     stage.mouseMoveOutside = true;
-    stage.addChild(container, debug);
+    stage.addChild(container);//, debug);
     stage.update(); 
 
     // Enable Touch
