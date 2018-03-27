@@ -3,15 +3,8 @@ function main()
 	// Setup
 	setup();
 
-	// Console
-	terminal = new Terminal();
-	stage.addChild( terminal );
-
 	// Keyboard
 	document.onkeydown = keyPressed;
-
-	// Test
-	console.log("fuck");
 
 	// Components
 //	var spinComponent = new SpinComponent();

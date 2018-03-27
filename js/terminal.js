@@ -1,111 +1,113 @@
-(function() {
-    function Terminal( startDown = false, h = 200 )
+var b = document.getElementById("t_toggle");
+var l = document.getElementById("t_log");
+var t = document.getElementById("t_value");
+    t.oninput = function(e)
     {
-        this.Container_constructor();
-        
-        this.height = h;
-        this.isDown = startDown;
-        this.lineHeight = 13;
-        this.y = - h;
-
-        if(startDown)
-            this.open();
-
-        this.background = new createjs.Shape();
-		this.background.graphics.beginFill("#222222").drawRect(0,0,stage.width,this.height);
-		this.background.alpha = 0.9;
-
-	    this.txt = new createjs.Text();
-		this.txt.x = 20;
-		this.txt.y = this.height - 20;
-		this.txt.color ="#FFFFFF";
-		this.txt.text = "testing";
-        this.txt.textBaseline = "bottom";
-        this.txt.lineHeight = this.lineHeight;
-
-        this.addChild( this.background,this.txt );
-
-        this.takeOverErrors();
-        this.takeOverConsole();
-        
-        window.addEventListener("keydown",this.keyPressed.bind(this));
-
-        //document.onkeydown = onkeydown.bind(this);;
+        var v = t.value;
+        var check = v[v.length-1];
+            
+        if(check == '`')
+        {
+            v = v.substr(0,v.length-1);
+            t.value = v;
+        }
     }
 
-    var p = createjs.extend( Terminal, createjs.Container );
-        p.keyPressed = function( e )
-        {
-            //Keycodes found at http://keycode.info
-            if( e.keyCode == 192 )
-            {
-                this.toggle();
-            }
+var btn = document.getElementById("t_input");
+    btn.onsubmit = function(e)
+    {
+        e.preventDefault();
+        console.log(t.value);
+        try {
+            eval(t.value);
         }
-        p.toggle = function()
-        {
-            var yTo = (this.isDown) ? (-this.height) : (0);
-        
-            createjs.Tween.get(this, {override: true}).to(
-                {y: yTo}, 300, createjs.Ease.bounceOut);
+        catch(err) {
+            console.warn(err);
+            return;
+        }				
+        t.value = "";				
+    }
+
+var h = document.getElementById("header");
+
+var showTerminal = function()
+{			
+    h.style.top = "0";
+}
+var toggleTerminal = function()
+{			
+    h.style.top = (h.style.top != "-30%")?("-30%"):("0");
+}
+var terminalKey = function(e)
+{			
+    if( e.keyCode == 192 )
+    {
+        toggleTerminal();
+    }
+}		
+window.addEventListener("keydown",this.terminalKey.bind(this));
+
+var takeOverErrors = function()
+{
+    window.addEventListener("error", handleError, true, this);
     
-            this.isDown = (this.isDown) ? (false) : (true);
+    function handleError(evt)
+    {
+        showTerminal();
+        console.log("error");
+        if (evt.message) { // Chrome sometimes provides this
+            l.innerText += "\n" + "error: "+evt.message +" at linenumber: "+evt.lineno+" of file: "+evt.filename;
+            //scope.updateTerminal("error: "+evt.message +" at linenumber: "+evt.lineno+" of file: "+evt.filename);
+        } else {
+            l.innerText += "\n" + "error: "+evt.type+" from element: "+(evt.srcElement || evt.target);
+            //scope.updateTerminal("error: "+evt.type+" from element: "+(evt.srcElement || evt.target));
         }
-        p.open = function()
-        {
-            this.isDown = false;
-            this.toggle();
-        }
-        p.updateTerminal = function( s )
-        {
-            this.txt.text = this.txt.text + "\n" +s;
-            this.txt.y -= this.lineHeight;
-        }
-        p.break = function()
-        {
-            this.updateTerminal("");
-        }
-        p.takeOverConsole = function()
-        {
-            var console = window.console;
-            var scope = this;
-            if (!console) return;
-            function intercept(method){
-                var original = console[method];
-                console[method] = function(){
-                    // do sneaky stuff
-                    var message = Array.prototype.slice.apply(arguments).join(' ');
-                    
-                    scope.updateTerminal( message );
-                    if (original.apply){
-                        // Do this for normal browsers
-                        original.apply(console, arguments);
-                    }else{
-                        // Do this for IE
-                        var message = Array.prototype.slice.apply(arguments).join(' ');
-                        original(message);
-                    }
-                }
+    }  
+}
+
+var autoOpenOnLog = true;
+
+var takeOverConsole = function()
+{
+    var console = window.console;
+    var scope = this;
+    if (!console) return;
+    function intercept(method){
+        var original = console[method];
+        console[method] = function(){
+            // do sneaky stuff
+            var message = Array.prototype.slice.apply(arguments).join(' ');
+            
+            if(autoOpenOnLog)
+                showTerminal();
+              
+            //scope.updateTerminal( message );
+            
+            l.innerText += "\n"+message;
+            l.scrollTop = l.scrollHeight;
+
+            if (original.apply){
+                // Do this for normal browsers
+                original.apply(console, arguments);
+            }else{
+                // Do this for IE
+                var message = Array.prototype.slice.apply(arguments).join(' ');
+                original(message);
             }
-            var methods = ['log', 'warn', 'error'];
-            for (var i = 0; i < methods.length; i++)
-                intercept(methods[i]);
         }
-        p.takeOverErrors = function()
-        {
-            window.addEventListener("error", handleError, true, this);
-            var scope = this;
+    }
+    var methods = ['log', 'warn', 'error'];
+    for (var i = 0; i < methods.length; i++)
+        intercept(methods[i]);
+}
 
-            function handleError(evt)
-            {
-                scope.open();
-                if (evt.message) { // Chrome sometimes provides this
-                    scope.updateTerminal("error: "+evt.message +" at linenumber: "+evt.lineno+" of file: "+evt.filename);
-                } else {
-                    scope.updateTerminal("error: "+evt.type+" from element: "+(evt.srcElement || evt.target));
-                }
-            }  
-        }
+var headerClicked = function(e)
+{
+    toggleTerminal();
+}
+b.addEventListener("click", this.headerClicked.bind(this));
 
-    window.Terminal = createjs.promote( Terminal, "Container" );
-} () );
+
+takeOverErrors();
+takeOverConsole();
+toggleTerminal();

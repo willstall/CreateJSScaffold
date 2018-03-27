@@ -11,6 +11,51 @@ body
     font-size: 14px;
 }
 
+#header
+{
+    position: absolute;
+    width: 100%;
+    height: 30%;
+    top: 0%;
+    left: 0;
+    background-color: rgba(0,0,0,.8);
+    color: #ffffff;
+    transition-timing-function: ease-in;
+    -webkit-transition: top .3s; /* Safari */
+    transition: top .3s;
+}
+#header input, #header input:focus 
+{
+    background-color: rgba(0,0,0,.4);
+    color: #ffffff;
+    padding-left: 20px;
+    display: inline-table;
+    height: 20%;
+    width: 100%;
+    outline: none;
+    margin: 0;
+    border: none;
+}
+#header pre
+{
+    height: 80%;
+    width: 100%;
+    vertical-align: bottom;
+    padding-left: 20px;
+    margin: 0;
+    overflow-y: auto;
+}
+#header a
+{
+    position: absolute;
+    bottom: -50px;
+    left: 20px;
+    height: 50px;
+    width: 50px;
+    background-color: rgba(0,0,0,.3);
+    border-radius: 0px 0px 4px 4px;
+}
+
 #footer
 {
     position: absolute;
