@@ -25,9 +25,13 @@ function bootstrap()
   //		spinComponent.targetRotation = 3600;
   //		spinComponent.ease = 0.01;
 
-  var img = new createjs.Img( 'logo' );
-    img.AddComponent( new OscillateScaleComponent(20, new createjs.Point(1,1) ) );
-    img.SetComponentsUpdate( true );
+  var img = new createjs.Img( 'logo', 2.0 );
+    // img.AddComponent( new OscillateScaleComponent(20, new createjs.Point(1,1) ) );
+    // img.SetComponentsUpdate( true );
+  
+  var throwableContainer = new createjs.ThrowableContainer();
+      throwableContainer.addChild( img );
+      throwableContainer.y = stage.height * .25;
   
 	var positionComponent = new OscillatePositionComponent();
 		positionComponent.amplitude.y = 50;
@@ -58,14 +62,21 @@ function bootstrap()
 		
 		lookAtComponent.target = test2;
 		//test2.on("tick", update);
-
+  
+  var spinningContainer = new createjs.Container();
+    spinningContainer.addChild( test1,test2,test3 );
+  	spinningContainer.AddComponent( rotateComponent );
+	  spinningContainer.SetComponentsUpdate( true );
+  
+  var btn = new createjs.Button("meow", config.styles.button, config.sizes.button);
+      btn.y = stage.height * -.25;
+      btn.onPress = () => alert('love yah ;)');
+  
 	// Extension
   	var extend_test = new ExtendedContainer();
 		extend_test.output();
-
-	container.addChild(test1,test2,test3,img);
-	container.AddComponent( rotateComponent );
-	container.SetComponentsUpdate( true );
+  
+	container.addChild(spinningContainer,btn, throwableContainer );
 }
 
 function keyPressed( event )

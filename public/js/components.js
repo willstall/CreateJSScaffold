@@ -226,7 +226,7 @@
 // VELOCITY COMPONENT
   function VelocityComponent()
   {
-    this.velocity = new createjs.Point(0,20);
+    this.velocity = new createjs.Point(0,0);
     this.friction = 0.9;
   }
   var p = createjs.extend( VelocityComponent, Component );
