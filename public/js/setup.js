@@ -2,7 +2,7 @@ var stage;
 var container;
 var canvas;
 //var debug;
-
+var test = "git test";
 function setup()
 {
     // Canvas
