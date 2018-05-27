@@ -3,7 +3,7 @@
     function MainStoryboard()
     {
       this.StoryboardContainer_constructor();
-      this.init();
+      // this.init();
     } 
   
     var p = createjs.extend(MainStoryboard, createjs.StoryboardContainer);

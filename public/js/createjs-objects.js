@@ -1,4 +1,34 @@
 /*
+  Storyboard Container
+*/
+(function () {
+  
+    function StoryboardContainer()
+    {
+      this.Container_constructor();
+      
+      this.visible = this.mouseEnabled = this.mouseChildren = false;
+      this.init();
+    } 
+  
+    var p = createjs.extend(StoryboardContainer, createjs.Container);
+        p.init = () => {};
+        p.onBoardAdded = e => console.log(e);
+        p.onBoardSetup = function(){
+            this.visible = this.mouseEnabled = this.mouseChildren = true;
+        };
+        p.onBoardTeardown = function(){
+            this.visible = this.mouseEnabled = this.mouseChildren = false;
+        };
+        p.onBoardRemoved = e => console.log(e);
+        p.onBoardPause = e => console.log(e);
+        p.onBoardResume = e => console.log(e);
+  
+    createjs.StoryboardContainer = createjs.promote(StoryboardContainer, "Container");;
+}());  
+
+
+/*
   Throwable Container
 */
 (function() {
@@ -209,33 +239,6 @@
 
     createjs.Button = createjs.promote( Button, "Container" );
 } () );
-
-/*
-  Storyboard Container
-*/
-(function () {
-  
-    function StoryboardContainer()
-    {
-      this.Container_constructor();
-      
-      this.visible = this.mouseEnabled = this.mouseChildren = false;
-    } 
-  
-    var p = createjs.extend(StoryboardContainer, createjs.Container);
-        p.onBoardAdded = e => console.log(e);
-        p.onBoardSetup = function(){
-            this.visible = this.mouseEnabled = this.mouseChildren = true;
-        };
-        p.onBoardTeardown = function(){
-            this.visible = this.mouseEnabled = this.mouseChildren = false;
-        };
-        p.onBoardRemoved = e => console.log(e);
-        p.onBoardPause = e => console.log(e);
-        p.onBoardResume = e => console.log(e);
-  
-    createjs.StoryboardContainer = createjs.promote(StoryboardContainer, "Container");;
-}());  
 
 /*
   Modal Container
