@@ -65,7 +65,7 @@ var takeOverErrors = function()
     }  
 }
 
-var autoOpenOnLog = true;
+var autoOpenOnLog = false;
 
 var takeOverConsole = function()
 {
