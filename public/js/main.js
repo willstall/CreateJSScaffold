@@ -25,7 +25,8 @@ function bootstrap()
 {
 
 	// Keyboard
-	document.onkeydown = keyPressed;
+  var kDown = new Rx.Observable.fromEvent(document, 'keydown');
+      kDown.subscribe( keyPressed );
   
   // Boards
   var board_1 = new createjs.StoryboardContainer();
@@ -89,32 +90,27 @@ function bootstrap()
             this.SetComponentsUpdate( true );
       }
   // Storyboard
-  var mainStoryBoard = new MainStoryboard();
-
-  // storyboard.add( Storyboards.MAIN, mainStoryBoard );
   storyboard.add( Storyboards.MAIN, board_1 );
   storyboard.add( Storyboards.MAIN, board_2 );
   storyboard.add( Storyboards.PRELOAD, board_3 );
   
   storyboard.init( boards[boardIndex] );
   
-  container.addChild( mainStoryBoard, board_1, board_2, board_3 );
+  container.addChild( board_1, board_2, board_3 );
 }
 
 function changeBoard()
 {
   boardIndex = boardIndex >= boards.length-1 ? boardIndex = 0 : boardIndex = boardIndex + 1;
   var b = boards[boardIndex];
-  console.log("new board: " + b);
   storyboard.change( b );
 }
 
 function keyPressed( event )
 {
 	//Keycodes found at http://keycode.info
-	if( event.keyCode == 32 )    // enter key
+	if( event.keyCode == 32 )    // space key
 	{
-		console.log("Changing Board");
     changeBoard();
 	}
 }
