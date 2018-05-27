@@ -1,8 +1,9 @@
 var stage;
 var container;
 var canvas;
+var loader;
+
 //var debug;
-var test = "git test";
 function setup()
 {
     // Canvas

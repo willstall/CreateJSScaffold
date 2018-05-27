@@ -2,9 +2,10 @@
 // where your node app starts
 
 // init project
+var assets = require("./assets");
 var express = require('express');
 var app = express();
-
+    app.use("/assets", assets);
 // we've started you off with Express, 
 // but feel free to use whatever libs or frameworks you'd like through `package.json`.
 
