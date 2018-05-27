@@ -21,7 +21,7 @@ var config =
   
   sizes:
   {
-     button: { x: 180, y: 48, r: 5, p: 10 } 
+     button: { x: 180, y: 48, r: 10, p: 10 } 
   }
 }
 // Styles

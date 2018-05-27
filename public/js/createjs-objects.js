@@ -152,8 +152,7 @@
             var labelBounds = this.label.getBounds();
             var labelWidth = labelBounds.width+this.size.p * 2;
             var w = (this.size.x > labelWidth) ? (this.size.x) : (labelWidth);
-            
-          console.log( w );
+
             this.background = new createjs.Shape();
             this.background.graphics.f( this.backgroundColor  ).rr(w * -.5, this.size.y * -.5, w,this.size.y,this.size.r).ef();
             this.background.setBounds( new createjs.Rectangle(w * -.5, this.size.y * -.5, w,this.size.y));
@@ -210,3 +209,247 @@
 
     createjs.Button = createjs.promote( Button, "Container" );
 } () );
+
+/*
+  Storyboard Container
+*/
+(function () {
+  
+    function StoryboardContainer()
+    {
+      this.Container_constructor();
+      
+      this.visible = this.mouseEnabled = this.mouseChildren = false;
+    } 
+  
+    var p = createjs.extend(StoryboardContainer, createjs.Container);
+        p.onBoardAdded = e => console.log(e);
+        p.onBoardSetup = function(){
+            this.visible = this.mouseEnabled = this.mouseChildren = true;
+        };
+        p.onBoardTeardown = function(){
+            this.visible = this.mouseEnabled = this.mouseChildren = false;
+        };
+        p.onBoardRemoved = e => console.log(e);
+        p.onBoardPause = e => console.log(e);
+        p.onBoardResume = e => console.log(e);
+  
+    createjs.StoryboardContainer = createjs.promote(StoryboardContainer, "Container");;
+}());  
+
+/*
+  Modal Container
+*/
+(function() {
+
+    function UIModal( acceptLabel = "Accept",cancelLabel = "Cancel", titleLabel = "Title", descriptionLabel = "Description", style = config.styles.modal.default, acceptStyle = config.styles.button.defaultModal, cancelStyle = config.styles.button.whiteModal, size = config.modalSize )
+    {
+        this.Container_constructor();
+
+        this.style = style;
+        this.acceptStyle = acceptStyle;
+        this.cancelStyle = cancelStyle;
+
+        this.size = size;
+
+        this.acceptLabel = acceptLabel;
+        this.cancelLabel = cancelLabel;
+        this.titleLabel = titleLabel;
+        this.descriptionLabel = descriptionLabel;
+
+        this.on("added", this.t_added, this);
+        this.on("removed", this.t_removed, this);
+
+        this.scaleX = this.scaleY = 0;
+
+        this.autoHideTimeout = 0;
+
+        this.init();
+    }
+
+    var p = createjs.extend( UIModal, createjs.Container );
+        p.init = function()
+        {
+            var h = 0;
+            var padding = this.size.p;
+
+            /*
+                Container
+            */
+            this.container = new createjs.Container();
+
+            /*
+                Labels
+            */
+            if( this.titleLabel )
+            {
+                this.title = new createjs.Text( this.titleLabel, this.style.fonts.title, this.style.titleColor );
+                this.title.textAlign = "center";
+                this.title.textBaseline = "top";
+
+                this.container.addChild( this.title );
+
+                var b = this.title.getBounds();
+                h += b.height + padding * .5;
+            }
+
+            if( this.descriptionLabel )
+            {
+                this.description = new createjs.Text( this.descriptionLabel, this.style.fonts.description, this.style.descriptionColor );
+                this.description.textAlign = "center";
+                this.description.textBaseline = "top";
+                this.description.y = h;
+
+                this.container.addChild( this.description );
+
+                var b = this.description.getBounds();
+                h += b.height + padding*2;
+            }
+
+            /*
+                Buttons
+            */
+            this.btns = new createjs.Container();
+
+            if( this.acceptLabel )
+            {
+                this.acceptBtn = new UIButton( this.acceptLabel, this.acceptStyle, config.modalButtonSize );
+                this.acceptBtn.onPress = () => {
+                    this.hide( true );
+                };
+                this.btns.addChild( this.acceptBtn );
+
+                if( this.cancelLabel )
+                    this.acceptBtn.x += this.acceptBtn.size.x * .5 + padding;
+
+                //var b = this.acceptBtn.getBounds();
+                h += this.acceptBtn.size.y *.5 + padding;
+            }
+
+            if( this.cancelLabel )
+            {
+                this.cancelBtn = new UIButton( this.cancelLabel, this.cancelStyle, config.modalButtonSize );
+                this.cancelBtn.onPress = () => {
+                    this.hide( false );
+                };
+                this.btns.addChild( this.cancelBtn );
+
+                if( this.acceptLabel )
+                {
+                    this.cancelBtn.x -= this.cancelBtn.size.x * .5 + padding;
+                }else{
+                    //var b = this.cancelBtn.getBounds();
+                    h += this.cancelBtn.size.y *.5 + padding;
+                }
+            }
+
+            this.btns.y = h;
+            this.container.addChild( this.btns );
+
+            /*
+                Background
+            */
+           var rect = new createjs.Graphics.RoundRect( -this.size.x/2, -this.size.y/2, this.size.x, this.size.y, this.size.r , this.size.r , this.size.r , this.size.r );
+           var background = new createjs.Shape();
+               background.graphics.f( this.style.backgroundColor ).append( rect ).ef();
+               background.shadow = new createjs.RetinaShadow( config.colors.shadows.modal, 0, 10, 0 );
+
+           var outline = new createjs.Shape();
+               outline.graphics.ss(3).ls( config.colors.gradients.gold, [0,1], 0, -this.size.y/2, 0, this.size.y/2 ).append( rect ).es();
+
+            /*
+                ScreenFill
+            */
+            //
+            // this.lightbox = new createjs.Shape();
+            //
+            // this.lightbox.graphics
+            //     .beginFill( this.style.fadeColor )
+            //     .drawRectAnchored( () => -stage.width/2, () => -stage.height/2, () => stage.width, () => stage.height );
+
+            // this.lightbox.on( "mousedown", (e) => e.stopPropagation() );
+
+
+            /*
+               Layer Containers
+            */
+            this.container.y = ( h + padding*2 ) * -.5;
+            this.addChild( background, outline, this.container);
+
+        };
+        p.t_added = function( event )
+        {
+
+            this.show();
+            this.off("added", this.t_added, this);
+        };
+        p.t_removed = function( event )
+        {
+            this.off("removed", this.t_removed, this);
+        };
+        p.autoHide = function( secondTillHide )
+        {
+            var s = new Rx.Observable.interval( secondTillHide ).take(1).subscribe( e => this.hide(false) );
+        };
+        p.hide = function( isAccepted = false)
+        {
+            if( !this.parent )
+                return;
+
+            // if( this.lightbox.parent )
+            //     createjs.Tween.get( this.lightbox )
+            //         .to({alpha:0}, 300)
+            //      .call( () => this.lightbox.parent.removeChild( this.lightbox ) );
+
+            // console.log("hide");
+            createjs.Tween.get( this, {override:true} )
+            .to( {
+                scaleX: 0,
+                scaleY: 0,
+                // alpha: 0
+            }, 300 , createjs.Ease.backIn)
+            .call( () =>
+            {
+                this.onPress( isAccepted );
+                this.parent.removeChild( this );
+            });
+        }
+        p.shine = function()
+        {
+            if(this.acceptBtn)
+            {
+                this.acceptBtn.shine();
+                return;
+            }
+            
+            if(this.cancelBtn)
+                this.cancelBtn.shine();
+        }
+        p.show = function()
+        {
+            // console.log("show");
+            // ui.frame.addChild( this.lightbox );
+
+            // this.lightbox.alpha = 0;
+            // createjs.Tween.get( this.lightbox )
+            //     .to({alpha:1}, 200);
+
+            sounds.playSound('modal');
+
+            this.scaleX = this.scaleY = 0;
+            this.alpha = 1;
+
+            createjs.Tween.get( this )
+            .to( {
+                scaleX: 1,
+                scaleY: 1
+            }, 500 , createjs.Ease.elasticOut)
+            .call( () => this.shine() )
+            .call(e => {if(this.autoHideTimeout > 0) this.autoHide( this.autoHideTimeout )});
+        }
+        p.onPress = function( isAccepted )
+        {
+            console.log("Modal was accepted: "+ isAccepted);
+        }
+    createjs.UIModal = createjs.promote(UIModal, "Container");
+}());

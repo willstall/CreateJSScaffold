@@ -19,7 +19,13 @@ function bootstrap()
 
 	// Keyboard
 	document.onkeydown = keyPressed;
-
+  
+  // Storyboard
+  var mainStoryBoard = new MainStoryboard();
+  var storyboard = new Storyboard();
+      storyboard.add( Storyboards.MAIN, mainStoryBoard );
+      storyboard.init( Storyboards.MAIN );
+  
 	// Components
   //	var spinComponent = new SpinComponent();
   //		spinComponent.targetRotation = 3600;

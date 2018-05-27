@@ -118,6 +118,11 @@ createjs.Point.prototype.degreesTo = function(v){
 	var angle = Math.atan2(dy, dx); // radians
 	return angle * (180 / Math.PI); // degrees
 };
+createjs.Point.prototype.heading = function()
+{
+	var angle = Math.atan2( this.y, this.x );
+	return angle * ( 180 / Math.PI );
+};
 createjs.Point.prototype.distance = function(v){
 	var x = this.x - v.x;
 	var y = this.y - v.y;
@@ -154,6 +159,10 @@ createjs.Point.prototype.scale = function(s)
 {
 	return new createjs.Point( this.x * s, this.y * s );
 }
+createjs.Point.prototype.divide = function(s)
+{
+	return new createjs.Point( this.x / s, this.y / s );
+}
 createjs.Point.prototype.subtract = function(v){
 	return new createjs.Point(this.x - v.x, this.y - v.y);
 };
@@ -183,6 +192,14 @@ createjs.Point.dot = function( pt1, pt2 )
 	return pt1.x*pt2.x + pt1.y*pt2.y;
 }
 
+/*
+ static public float angleBetween(PVector v1, PVector v2) {
+    float dot = v1.dot(v2);
+    float theta = (float) Math.acos(dot / (v1.mag() * v2.mag()));
+    return theta;
+  }
+*/
+
 // MATH EXTENSIONS
 createjs.Math = {};
 createjs.Math.lerp = function ( A, B, t )
@@ -198,4 +215,16 @@ createjs.Math.randomRange = function(min, max)
 	min = Math.ceil(min);
 	max = Math.floor(max);
 	return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+createjs.Math.mapRange = function(value, low1, high1, low2, high2)
+{
+    return low2 + (high2 - low2) * (value - low1) / (high1 - low1);
+}
+createjs.Math.radiansToDegrees = function( radians )
+{
+	return radians * 180 / Math.PI;
+}
+createjs.Math.degreesToRadians = function( degrees )
+{
+	return degrees * Math.PI / 180;
 }
