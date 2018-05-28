@@ -97,11 +97,10 @@ function bootstrap()
         
         this.particles.addModifier(
           ParticleModifiers.sizeOverLifetime(5, 0, createjs.Ease.elasticOut),
-          ParticleModifiers.turbulence(10),
+          ParticleModifiers.turbulence(100),
           ParticleModifiers.damping(.1),
           ParticleModifiers.drift( new createjs.Point(0, 1), 1000 )
         );
-        
         
         this.addChild( this.particles ); 
       }
@@ -109,22 +108,8 @@ function bootstrap()
       {
         this.particles.start();
         this.particles.spawn(100);
-        
         this.visible = this.mouseEnabled = this.mouseChildren = true;
-        
-        console.log("hey");
-        try{
-
-          this.StoryboardContainer_onBoardSetup();
-          console.log(this.__proto__.onBoardSetup);
-          this.__proto__.onBoardSetup();
-          // super.onBoardSetup();
-        }catch(err)
-        {
-          console.log(err);
-        }
-
-        console.log("hey");        
+   
       }
   // Storyboard
   storyboard.add( Storyboards.MAIN, board_1 );
