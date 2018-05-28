@@ -1,23 +1,19 @@
 (function() {
 
-    function UIParticleSystem( )
+    function ParticleSystem( style )
     {
         this.Container_constructor( );
+        this.style = style;
+    
         this.setup();
     }
 
-    var p = createjs.extend( UIParticleSystem, createjs.Container );
+    var p = createjs.extend( ParticleSystem, createjs.Container );
 
         p.setup = function()
         {
             this.particles = [];
             this.modifiers = [];
-
-            this.modifiers.push( ParticleModifiers.sizeOverLifetime(1.5, 0, createjs.Ease.circOut) );
-            this.modifiers.push( ParticleModifiers.turbulence(10) );
-            this.modifiers.push( ParticleModifiers.damping(.1) );
-            this.modifiers.push( ParticleModifiers.drift( new Point(0, -1), 200 ) );
-            //this.modifiers.push( this.alphaOverLifetime(1, 0, createjs.Ease.linear) );
         }
 
         p.start = function()
@@ -30,9 +26,14 @@
             this.off("tick", this.updateListener);
         }
 
+        p.addModifier = function( ...modifiers )
+        {
+            this.modifiers.push( ...modifiers );
+        }
+
         p.spawnParticle = function( data )
         {
-            var particle = new UIParticle( data );
+            var particle = new createjs.Particle( data );
             this.addChild( particle );
             this.particles.push( particle );
             return particle;
@@ -40,21 +41,14 @@
 
         p.spawn = function( count )
         {
-            var shadow = new createjs.Shadow("#EEE", -2, 2, 0);
-            count.downto(0, function(){
-                var p = this.spawnParticle({
-                    lifetime: Math.random() * 1 + 1,
-                    velocity: Point.polar(1, Math.random() * 2 * Math.PI).scale( Math.random() * 200 + 200 ),
-                    drawing: function( graphics )
-                    {
-                        graphics.beginFill("#FFF").drawCircle(0,0,10).endFill();
-                    //    graphics.setStrokeStyle(2).beginStroke("#EEE").arc(0,0,10,Math.PI/2, Math.PI).endStroke();
-                    }
-                })
-                p.shadow = shadow;
-            }.bind(this));
+            count.downto(0, () => this.spawnParticle( this.func( this.style ) ) );
         }
-
+        
+        p.func = function( f )
+        {
+          return typeof f === "function" ? f() : f;
+        }
+        
         p.update = function( event )
         {
             if( !this.timeStamp )
@@ -93,22 +87,20 @@
         }
 
 
-    window.UIParticleSystem = createjs.promote( UIParticleSystem, "Container" );
+    createjs.ParticleSystem = createjs.promote( ParticleSystem, "Container" );
 } () );
 
 
 (function() {
 
-    function UIParticle( data )
+    function Particle( data )
     {
         var defaults = {
             lifetime: 1,
-            velocity: new Point(0,0),
+            velocity: new createjs.Point(0,0),
             angularVelocity: 0,
-            drawing: function(graphics)
-            {
-                graphics.beginFill("#F00").drawCircle(0,0,8).endFill();
-            }
+            drawing: (graphics) => graphics.beginFill("#F00").drawCircle(0,0,8).endFill(),
+            caching: null
         };
 
         Object.merge(this, defaults);
@@ -120,11 +112,14 @@
         this.setup();
     }
 
-    var p = createjs.extend( UIParticle, createjs.Shape );
+    var p = createjs.extend( Particle, createjs.Shape );
 
         p.setup = function()
         {
             this.drawing( this.graphics );
+
+            if( this.caching )
+                this.cache( ...this.caching );
         }
 
         p.update = function( deltaTime )
@@ -148,7 +143,7 @@
         }
 
 
-    window.UIParticle = createjs.promote( UIParticle, "Shape" );
+    createjs.Particle = createjs.promote( Particle, "Shape" );
 } () );
 
 
@@ -159,7 +154,7 @@ var ParticleModifiers = {
     {
         return function(particle){
             var t = ease( particle.getT() );
-            particle.scaleX = particle.scaleY = lerp(start, finish, t);
+            particle.scaleX = particle.scaleY = createjs.Math.lerp(start, finish, t);
         }
     },
 
@@ -167,7 +162,7 @@ var ParticleModifiers = {
     {
         return function(particle){
             var t = ease( particle.getT() );
-            particle.alpha = lerp(start, finish, t);
+            particle.alpha = createjs.Math.lerp(start, finish, t);
         }
     },
 

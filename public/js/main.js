@@ -1,5 +1,5 @@
 var storyboard = new Storyboard();;
-var boards = [ Storyboards.PRELOAD, Storyboards.MAIN ];
+var boards = [ Storyboards.PRELOAD, Storyboards.MAIN, Storyboards.GAME ];
 var boardIndex = 0;
 
 function main()
@@ -75,17 +75,69 @@ function bootstrap()
             this.AddComponent( rotateComponent );
             this.SetComponentsUpdate( true );
       }
+  var board_3 = new createjs.StoryboardContainer();
+      board_3.onBoardAdded = function()
+      {
+        
+        var bmp = loader.getResult('logo');
+        
+        var mat = new createjs.Matrix2D()
+          .translate( -25, -25 )
+          .scale( 50 / bmp.width, 50 / bmp.height )
+        
+        var particles = new createjs.ParticleSystem( () => ({
+          lifetime: Math.random() * 2 + 1,
+          velocity: new createjs.Point.polar(1, Math.random() * 2 * Math.PI).scale( Math.random() * 1000 + 500 ).add( new createjs.Point(0,-Math.random()*2000)),
+          angularVelocity: Math.random() * 720 - 360,
+          drawing: graphics => graphics.beginBitmapFill(bmp, "no-repeat", mat).drawRect(-25,-25,50, 50).endFill(),
+          caching: [ -25, -25, 50, 50 ]
+          }));
+        
+        this.particles = particles;
+        
+        this.particles.addModifier(
+          ParticleModifiers.sizeOverLifetime(5, 0, createjs.Ease.elasticOut),
+          ParticleModifiers.turbulence(10),
+          ParticleModifiers.damping(.1),
+          ParticleModifiers.drift( new createjs.Point(0, 1), 1000 )
+        );
+        
+        
+        this.addChild( this.particles ); 
+      }
+      board_3.onBoardSetup = function()
+      {
+        this.particles.start();
+        this.particles.spawn(100);
+        
+        this.visible = this.mouseEnabled = this.mouseChildren = true;
+        
+        console.log("hey");
+        try{
+
+          this.StoryboardContainer_onBoardSetup();
+          console.log(this.__proto__.onBoardSetup);
+          this.__proto__.onBoardSetup();
+          // super.onBoardSetup();
+        }catch(err)
+        {
+          console.log(err);
+        }
+
+        console.log("hey");        
+      }
   // Storyboard
   storyboard.add( Storyboards.MAIN, board_1 );
   storyboard.add( Storyboards.PRELOAD, board_2 );
+  storyboard.add( Storyboards.GAME, board_3 );
   
   storyboard.init( boards[boardIndex] );
   // Change Button
-    var btn = new createjs.Button("meow", config.styles.button, config.sizes.button);
-        btn.y = stage.height * .25;
-        btn.onPress = () => changeBoard();
+  var btn = new createjs.Button("meow", config.styles.button, config.sizes.button);
+      btn.y = stage.height * .25;
+      btn.onPress = () => changeBoard();
 
-  container.addChild( btn, board_1, board_2 );
+  container.addChild( btn, board_1, board_2, board_3 );
 }
 
 function changeBoard()
