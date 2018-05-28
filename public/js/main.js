@@ -32,28 +32,14 @@ function bootstrap()
   var board_1 = new createjs.StoryboardContainer();
       board_1.onBoardAdded = function()
       {
-        
-          var btn = new createjs.Button("meow", config.styles.button, config.sizes.button);
-              // btn.y = stage.height * -.25;
-              btn.onPress = () => alert('love yah ;)');
-        
-          this.addChild( btn );
-      }
-  var board_2 = new createjs.StoryboardContainer();
-      board_2.onBoardAdded = function()
-      {
           var img = new createjs.Img( 'logo', 2.0 );
-            // img.AddComponent( new OscillateScaleComponent(20, new createjs.Point(1,1) ) );
-            // img.SetComponentsUpdate( true );
-
           var throwableContainer = new createjs.ThrowableContainer();
               throwableContainer.addChild( img );
-              throwableContainer.y = stage.height * .25;
         
         this.addChild( throwableContainer );
       }
-  var board_3 = new createjs.StoryboardContainer();
-      board_3.onBoardAdded = function()
+  var board_2 = new createjs.StoryboardContainer();
+      board_2.onBoardAdded = function()
       {
           var positionComponent = new OscillatePositionComponent();
             positionComponent.amplitude.y = 50;
@@ -91,12 +77,15 @@ function bootstrap()
       }
   // Storyboard
   storyboard.add( Storyboards.MAIN, board_1 );
-  storyboard.add( Storyboards.MAIN, board_2 );
-  storyboard.add( Storyboards.PRELOAD, board_3 );
+  storyboard.add( Storyboards.PRELOAD, board_2 );
   
   storyboard.init( boards[boardIndex] );
-  
-  container.addChild( board_1, board_2, board_3 );
+  // Change Button
+    var btn = new createjs.Button("meow", config.styles.button, config.sizes.button);
+        btn.y = stage.height * .25;
+        btn.onPress = () => changeBoard();
+
+  container.addChild( btn, board_1, board_2 );
 }
 
 function changeBoard()
