@@ -10,7 +10,7 @@ function setup()
     canvas = document.getElementById("canvas");
 
     // Update
-    createjs.Ticker.timingMode = createjs.Ticker.RAF;
+    createjs.Ticker.timingMode = createjs.Ticker.RAF_SYNCHED;
     createjs.Ticker.addEventListener( "tick", tick );
     createjs.Ticker.framerate = 30;
 
